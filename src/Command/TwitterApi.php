@@ -117,7 +117,7 @@ class TwitterBoatCommand extends Command
                 echo $limited .'-'.$tweet->user->screen_name. "-- takip edilmiştir \n";
                 $limited++;
             }
-            };
+            }
         }
     }
 
@@ -136,6 +136,7 @@ class TwitterBoatCommand extends Command
     }
     
 }
+
 
 
 
