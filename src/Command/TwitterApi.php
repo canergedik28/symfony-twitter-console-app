@@ -29,7 +29,6 @@ class TwitterBoatCommand extends Command
         $this->access_token = $_ENV['access_token']  ;
         $this->access_token_secret = $_ENV['access_token_secret']  ;
         $this->auth = new  \Abraham\TwitterOAuth\TwitterOAuth($this->consumer_key, $this->consumer_secret, $this->access_token, $this->access_token_secret);
-        $this->twitterConfig = $twitterConfig;
         parent::__construct();
     }
 
@@ -137,6 +136,7 @@ class TwitterBoatCommand extends Command
     }
     
 }
+
 
 
 
