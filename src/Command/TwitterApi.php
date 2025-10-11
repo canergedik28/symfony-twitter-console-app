@@ -77,10 +77,10 @@ class TwitterBoatCommand extends Command
         $unfollowList = array_diff($friends['ids'],$followers['ids']);
         $deleteCount = 0;
         foreach($unfollowList  as $value){
-            $delete =  (array) $this->auth->post('friendships/destroy',array('user_id'=>$value));
-            echo $delete_count. '-'. $delete['screen_name'].' kullanıcı takibi bırakıldı'."\n";
+            $unfollowUser =  (array) $this->auth->post('friendships/destroy',array('user_id'=>$value));
+            echo $deleteCount. '-'. $unfollowUser['screen_name'].' kullanıcı takibi bırakıldı'."\n";
             $deleteCount ++ ;
-            if($delete_count == 50){
+            if($deleteCount == 50){
                 break;
             }
             sleep(1);
@@ -127,6 +127,7 @@ class TwitterBoatCommand extends Command
 
         $search = (array)  $this->auth->get('search/tweets',array('q'=>$text,"lang"=>"tr","count"=>75));
         $pattern = "/@|text3|text2|text1/i";
+        $count = 10;
         foreach($search['statuses'] as $tweets){
             if(!preg_match($pattern,$tweets->text) && $tweets->user->followers_count > 75){
                 $this->auth->post("favorites/create",array("id"=>$tweets->id));
@@ -137,7 +138,6 @@ class TwitterBoatCommand extends Command
     }
     
 }
-
 
 
 
