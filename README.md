@@ -8,6 +8,7 @@ Amaç, Twitter üzerinde otomatik gönderim işlemlerini (örneğin duyuru, kamp
 ## 🚀 Özellikler
   
 - 💬 Komut satırından tweet veya DM gönderme,kullanıcı takipten çıkarma,kullanıcı takip etme
-- 🔐 API anahtarlarını `.env` dosyasından yönetme    
+- 🔐 API anahtarlarını `.env` dosyasından yönetme
+- Texte göre filtreleme işlemleri
 - 🧱 Symfony Console altyapısı ile güçlü CLI deneyimi
 
