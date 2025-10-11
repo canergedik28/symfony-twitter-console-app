@@ -21,7 +21,7 @@ class TwitterBoatCommand extends Command
     private $access_token_secret;
     private $auth;
     private $output;
-    public function __construct(HttpClientInterface $client,TwitterConfig $twitterConfig,DatabaseConfigurator $databaseConfigurator)
+    public function __construct(HttpClientInterface $client)
     {
         $this->client = $client;
         $this->consumer_key = $_ENV['consumer_key'] ; 
@@ -136,6 +136,7 @@ class TwitterBoatCommand extends Command
     }
     
 }
+
 
 
 
