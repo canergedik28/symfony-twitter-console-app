@@ -11,6 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Abraham\TwitterOAuth\TwitterOAuth;
 
+
 #[AsCommand(name: 'twitter')]
 class TwitterBoatCommand extends Command
 {
@@ -21,7 +22,6 @@ class TwitterBoatCommand extends Command
     private $auth;
     private $output;
     private $twitterConfig;
-    private $databaseConfigurator;
     public function __construct(HttpClientInterface $client,TwitterConfig $twitterConfig,DatabaseConfigurator $databaseConfigurator)
     {
         $this->client = $client;
@@ -31,7 +31,6 @@ class TwitterBoatCommand extends Command
         $this->access_token_secret = $_ENV['access_token_secret']  
         $this->auth = new  \Abraham\TwitterOAuth\TwitterOAuth($this->consumer_key, $this->consumer_secret, $this->access_token, $this->access_token_secret);
         $this->twitterConfig = $twitterConfig;
-        $this->databaseConfigurator = $databaseConfigurator;
         parent::__construct();
     }
 
@@ -75,12 +74,12 @@ class TwitterBoatCommand extends Command
         sleep(0.5);
         $followers =(array) $this->auth->get('followers/ids',array('screen_name'=>"username"));
         sleep(0.5);
-        $unflow_list = array_diff($friends['ids'],$followers['ids']);
-        $delete_count = 1;
-        foreach($unflow_list  as $value){
+        $unfollowList = array_diff($friends['ids'],$followers['ids']);
+        $deleteCount = 0;
+        foreach($unfollowList  as $value){
             $delete =  (array) $this->auth->post('friendships/destroy',array('user_id'=>$value));
             echo $delete_count. '-'. $delete['screen_name'].' kullanıcı takibi bırakıldı'."\n";
-            $delete_count ++ ;
+            $deleteCount ++ ;
             if($delete_count == 50){
                 break;
             }
@@ -109,8 +108,9 @@ class TwitterBoatCommand extends Command
 
     public function searchCreateFriends($text){
         $limited  = 1;
-        $search = (array)  $this->auth->get('search/tweets',array('q'=>$text,"lang"=>"tr","count"=>200));
+        $search = (array) $this->auth->get('search/tweets',array('q'=>$text,"lang"=>"tr","count"=>200));
         sleep(0.5);
+        $pattern = "/@|text3|text2|text1/i";
         foreach($search['statuses'] as $tweet){
             if(count(preg_grep($pattern,array($tweet->text,$tweet->user->screen_name,$tweet->user->name,$tweet->user->description))) < 1 &&( $tweet->user->following == false && $tweet->user->followers_count > 75 )){
                 if($limited <= 30){
@@ -124,6 +124,7 @@ class TwitterBoatCommand extends Command
     }
 
     public function tweetFavorite($text){
+
         $search = (array)  $this->auth->get('search/tweets',array('q'=>$text,"lang"=>"tr","count"=>75));
         $pattern = "/@|text3|text2|text1/i";
         $count = 10;
