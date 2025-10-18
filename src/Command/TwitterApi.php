@@ -69,9 +69,9 @@ class TwitterBoatCommand extends Command
     }
     public function unfollowDestroy(){
         $friends = (array)  $this->auth->get('friends/ids',array('screen_name'=>"username"));
-        sleep(0.5);
+        sleep(random_int(0, 5));
         $followers =(array) $this->auth->get('followers/ids',array('screen_name'=>"username"));
-        sleep(0.5);
+        sleep(random_int(0, 5));
         $unfollowList = array_diff($friends['ids'],$followers['ids']);
         $deleteCount = 0;
         foreach($unfollowList  as $value){
@@ -136,6 +136,7 @@ class TwitterBoatCommand extends Command
     }
     
 }
+
 
 
 
