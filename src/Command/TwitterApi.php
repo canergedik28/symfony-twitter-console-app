@@ -113,7 +113,7 @@ class TwitterBoatCommand extends Command
             if(count(preg_grep($pattern,array($tweet->text,$tweet->user->screen_name,$tweet->user->name,$tweet->user->description))) < 1 &&( $tweet->user->following == false && $tweet->user->followers_count > 75 )){
                 if($limited <= 30){
                 $createFriends =  (array) $this->auth->post('friendships/create',array('screen_name'=>$tweet->user->screen_name));
-                sleep(1.5);
+                sleep(random_int(0, 5));
                 echo $limited .'-'.$tweet->user->screen_name. "-- takip edilmiştir \n";
                 $limited++;
             }
@@ -136,6 +136,7 @@ class TwitterBoatCommand extends Command
     }
     
 }
+
 
 
 
