@@ -62,16 +62,16 @@ class TwitterBoatCommand extends Command
 
     public function createTweet(string $string){
         $tweet =(array)  $this->auth->post('statuses/update',array('status'=>$string));
-        sleep(0.5);
+        sleep(1);
         $message = isset($tweet['created_at']) ? '<fg=green;options=bold>Twitiniz atılmıştır</>' : '<fg=red;options=bold>Üzgünüm Twitiniz atılamadı</>';
         return $message;
         
     }
     public function unfollowDestroy(){
         $friends = (array)  $this->auth->get('friends/ids',array('screen_name'=>"username"));
-        sleep(random_int(0, 5));
+        sleep(random_int(1, 5));
         $followers =(array) $this->auth->get('followers/ids',array('screen_name'=>"username"));
-        sleep(random_int(0, 5));
+        sleep(random_int(1, 5));
         $unfollowList = array_diff($friends['ids'],$followers['ids']);
         $deleteCount = 0;
         foreach($unfollowList  as $value){
@@ -107,7 +107,7 @@ class TwitterBoatCommand extends Command
     public function searchCreateFriends($text){
         $limited  = 1;
         $search = (array) $this->auth->get('search/tweets',array('q'=>$text,"lang"=>"tr","count"=>200));
-        sleep(random_int(0, 5));
+        sleep(random_int(1, 5));
         $pattern = "/@|text3|text2|text1/i";
         foreach($search['statuses'] as $tweet){
             if(count(preg_grep($pattern,array($tweet->text,$tweet->user->screen_name,$tweet->user->name,$tweet->user->description))) < 1 &&( $tweet->user->following == false && $tweet->user->followers_count > 75 )){
@@ -129,13 +129,14 @@ class TwitterBoatCommand extends Command
         foreach($search['statuses'] as $tweets){
             if(!preg_match($pattern,$tweets->text) && $tweets->user->followers_count > 75){
                 $this->auth->post("favorites/create",array("id"=>$tweets->id));
-                sleep(random_int(0, 5));
+                sleep(random_int(1, 5));
                 echo $tweets->text. "-- Twit beğenilmiştir \n";
             }
         }
     }
     
 }
+
 
 
 
