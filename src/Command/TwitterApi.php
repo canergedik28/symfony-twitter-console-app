@@ -107,7 +107,7 @@ class TwitterBoatCommand extends Command
     public function searchCreateFriends($text){
         $limited  = 1;
         $search = (array) $this->auth->get('search/tweets',array('q'=>$text,"lang"=>"tr","count"=>200));
-        sleep(0.5);
+        sleep(random_int(0, 5));
         $pattern = "/@|text3|text2|text1/i";
         foreach($search['statuses'] as $tweet){
             if(count(preg_grep($pattern,array($tweet->text,$tweet->user->screen_name,$tweet->user->name,$tweet->user->description))) < 1 &&( $tweet->user->following == false && $tweet->user->followers_count > 75 )){
@@ -129,13 +129,14 @@ class TwitterBoatCommand extends Command
         foreach($search['statuses'] as $tweets){
             if(!preg_match($pattern,$tweets->text) && $tweets->user->followers_count > 75){
                 $this->auth->post("favorites/create",array("id"=>$tweets->id));
-                sleep(1);
+                sleep(random_int(0, 5));
                 echo $tweets->text. "-- Twit beğenilmiştir \n";
             }
         }
     }
     
 }
+
 
 
 
