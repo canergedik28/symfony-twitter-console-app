@@ -13,7 +13,7 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 
 
 #[AsCommand(name: 'twitter')]
-class TwitterBoatCommand extends Command
+class TwitterAutomationCommand extends Command
 {
     private $consumer_key;
     private $consumer_secret;
@@ -136,6 +136,7 @@ class TwitterBoatCommand extends Command
     }
     
 }
+
 
 
 
